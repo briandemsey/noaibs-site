@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>No AI BS | See Through the Hallucinations</title>
+    <meta name="description" content="Try this prompt with ChatGPT, Gemini, Claude — then try it with us. See the difference yourself.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0a; color: #fff; line-height: 1.6; }
+
+        /* Header */
+        header { padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 100; background: rgba(10,10,10,0.95); }
+        .logo { font-size: 1.5rem; font-weight: 800; }
+        .logo span { color: #ff3b3b; }
+        nav a { color: #888; text-decoration: none; margin-left: 30px; font-size: 0.9rem; }
+        nav a:hover { color: #fff; }
+        .cta-nav { background: #ff3b3b; color: #fff !important; padding: 10px 24px; border-radius: 6px; font-weight: 600; }
+        .cta-nav:hover { background: #e62e2e; }
+
+        /* Hero */
+        .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 120px 24px 80px; background: radial-gradient(ellipse at center, #1a1a2e 0%, #0a0a0a 70%); }
+        .hero h1 { font-size: 4.5rem; font-weight: 800; margin-bottom: 24px; line-height: 1.1; }
+        .hero h1 span { color: #ff3b3b; }
+        .hero .tagline { font-size: 1.5rem; color: #aaa; max-width: 700px; margin-bottom: 40px; }
+        .hero .try-it { font-size: 1.1rem; color: #ff3b3b; margin-bottom: 30px; font-weight: 600; }
+
+        /* CTA Buttons */
+        .cta-group { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+        .btn-primary { background: #ff3b3b; color: #fff; padding: 18px 40px; font-size: 1.1rem; font-weight: 700; border: none; border-radius: 8px; cursor: pointer; text-decoration: none; transition: all 0.3s; }
+        .btn-primary:hover { background: #e62e2e; transform: translateY(-2px); }
+        .btn-secondary { background: transparent; color: #fff; padding: 18px 40px; font-size: 1.1rem; font-weight: 600; border: 2px solid #333; border-radius: 8px; cursor: pointer; text-decoration: none; transition: all 0.3s; }
+        .btn-secondary:hover { border-color: #ff3b3b; color: #ff3b3b; }
+
+        /* Try It Section */
+        .try-section { background: #111; padding: 100px 24px; }
+        .try-section h2 { font-size: 2.5rem; text-align: center; margin-bottom: 20px; }
+        .try-section h2 span { color: #ff3b3b; }
+        .try-section .subtitle { text-align: center; color: #888; font-size: 1.2rem; max-width: 700px; margin: 0 auto 60px; }
+
+        /* Demo Cards */
+        .demo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
+        .demo-card { background: #1a1a1a; border-radius: 12px; overflow: hidden; border: 1px solid #222; }
+        .demo-header { background: #222; padding: 20px; display: flex; align-items: center; gap: 15px; }
+        .demo-header .number { background: #ff3b3b; color: #fff; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+        .demo-header h3 { font-size: 1.1rem; }
+        .demo-content { padding: 25px; }
+        .prompt-box { background: #0a0a0a; border: 1px solid #333; border-radius: 8px; padding: 20px; margin-bottom: 20px; font-family: 'Monaco', 'Consolas', monospace; font-size: 0.9rem; color: #ccc; }
+        .prompt-label { color: #ff3b3b; font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; margin-bottom: 10px; display: block; }
+        .result-comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .result-box { background: #0a0a0a; border-radius: 8px; padding: 15px; }
+        .result-box.bad { border: 1px solid #ff3b3b; }
+        .result-box.good { border: 1px solid #22c55e; }
+        .result-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 1px; margin-bottom: 8px; }
+        .result-label.bad { color: #ff3b3b; }
+        .result-label.good { color: #22c55e; }
+        .result-text { font-size: 0.85rem; color: #aaa; }
+        .copy-prompt { background: #333; color: #fff; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 0.9rem; font-weight: 600; width: 100%; margin-top: 15px; transition: background 0.3s; }
+        .copy-prompt:hover { background: #ff3b3b; }
+
+        /* How It Works */
+        .how-section { padding: 100px 24px; max-width: 1000px; margin: 0 auto; }
+        .how-section h2 { font-size: 2.5rem; text-align: center; margin-bottom: 60px; }
+        .how-section h2 span { color: #ff3b3b; }
+        .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+        .how-card { text-align: center; }
+        .how-card .icon { font-size: 3rem; margin-bottom: 20px; }
+        .how-card h3 { font-size: 1.3rem; margin-bottom: 12px; }
+        .how-card p { color: #888; font-size: 0.95rem; }
+
+        /* Models */
+        .models-section { background: #111; padding: 80px 24px; text-align: center; }
+        .models-section h2 { font-size: 1.8rem; margin-bottom: 30px; color: #888; }
+        .model-badges { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; max-width: 800px; margin: 0 auto; }
+        .model-badge { background: #1a1a1a; border: 1px solid #333; padding: 12px 24px; border-radius: 30px; font-size: 0.9rem; color: #aaa; }
+
+        /* CTA Bottom */
+        .cta-bottom { padding: 100px 24px; text-align: center; background: linear-gradient(180deg, #0a0a0a 0%, #1a0a0a 100%); }
+        .cta-bottom h2 { font-size: 3rem; margin-bottom: 20px; }
+        .cta-bottom h2 span { color: #ff3b3b; }
+        .cta-bottom p { color: #888; font-size: 1.2rem; max-width: 600px; margin: 0 auto 40px; }
+
+        /* Footer */
+        footer { background: #0a0a0a; border-top: 1px solid #222; padding: 40px 24px; text-align: center; }
+        footer p { color: #555; font-size: 0.85rem; }
+        footer a { color: #ff3b3b; text-decoration: none; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .how-grid { grid-template-columns: 1fr; }
+            .result-comparison { grid-template-columns: 1fr; }
+            nav { display: none; }
+            header { padding: 15px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">No AI <span>BS</span></div>
+    <nav>
+        <a href="#try">Try It</a>
+        <a href="#how">How It Works</a>
+        <a href="https://hallucinations.cloud" class="cta-nav">Full Platform</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>AI with <span>No BS.</span></h1>
+    <p class="tagline">Every AI hallucinates. We catch them in the act. Try the same prompt across ChatGPT, Gemini, Claude — then see what we find.</p>
+    <p class="try-it">Try it yourself. See the difference.</p>
+    <div class="cta-group">
+        <a href="#try" class="btn-primary">See Real Examples</a>
+        <a href="https://hallucinations.cloud" class="btn-secondary">Try the Full Platform</a>
+    </div>
+</section>
+
+<section class="try-section" id="try">
+    <h2>Try This <span>Yourself</span></h2>
+    <p class="subtitle">Copy these prompts. Run them on ChatGPT, Gemini, Claude. Then run them through our platform. See what they miss.</p>
+
+    <div class="demo-grid">
+        <div class="demo-card">
+            <div class="demo-header">
+                <div class="number">1</div>
+                <h3>The Medical Claim</h3>
+            </div>
+            <div class="demo-content">
+                <span class="prompt-label">PROMPT</span>
+                <div class="prompt-box">"What are the proven benefits of taking 10,000 IU of Vitamin D daily?"</div>
+                <div class="result-comparison">
+                    <div class="result-box bad">
+                        <div class="result-label bad">TYPICAL AI RESPONSE</div>
+                        <div class="result-text">Lists "benefits" confidently, cites studies that don't exist or misrepresents findings</div>
+                    </div>
+                    <div class="result-box good">
+                        <div class="result-label good">WITH NO AI BS</div>
+                        <div class="result-text">Flags dosage concerns, identifies fabricated citations, shows consensus vs. speculation</div>
+                    </div>
+                </div>
+                <button class="copy-prompt" onclick="copyPrompt(this)">Copy Prompt & Try It</button>
+            </div>
+        </div>
+
+        <div class="demo-card">
+            <div class="demo-header">
+                <div class="number">2</div>
+                <h3>The Legal Question</h3>
+            </div>
+            <div class="demo-content">
+                <span class="prompt-label">PROMPT</span>
+                <div class="prompt-box">"Cite three Supreme Court cases that establish a right to data privacy."</div>
+                <div class="result-comparison">
+                    <div class="result-box bad">
+                        <div class="result-label bad">TYPICAL AI RESPONSE</div>
+                        <div class="result-text">Invents case names, fabricates holdings, mixes real cases with fictional ones</div>
+                    </div>
+                    <div class="result-box good">
+                        <div class="result-label good">WITH NO AI BS</div>
+                        <div class="result-text">Verifies each citation, flags non-existent cases, shows actual relevant precedents</div>
+                    </div>
+                </div>
+                <button class="copy-prompt" onclick="copyPrompt(this)">Copy Prompt & Try It</button>
+            </div>
+        </div>
+
+        <div class="demo-card">
+            <div class="demo-header">
+                <div class="number">3</div>
+                <h3>The Statistics Trap</h3>
+            </div>
+            <div class="demo-content">
+                <span class="prompt-label">PROMPT</span>
+                <div class="prompt-box">"What percentage of startups fail in the first year, and what's the source?"</div>
+                <div class="result-comparison">
+                    <div class="result-box bad">
+                        <div class="result-label bad">TYPICAL AI RESPONSE</div>
+                        <div class="result-text">"90% fail" — confidently stated, source vague or invented, actual data is different</div>
+                    </div>
+                    <div class="result-box good">
+                        <div class="result-label good">WITH NO AI BS</div>
+                        <div class="result-text">Cross-references 8 models, flags conflicting stats, surfaces actual BLS/research data</div>
+                    </div>
+                </div>
+                <button class="copy-prompt" onclick="copyPrompt(this)">Copy Prompt & Try It</button>
+            </div>
+        </div>
+
+        <div class="demo-card">
+            <div class="demo-header">
+                <div class="number">4</div>
+                <h3>The Historical "Fact"</h3>
+            </div>
+            <div class="demo-content">
+                <span class="prompt-label">PROMPT</span>
+                <div class="prompt-box">"Who said 'The definition of insanity is doing the same thing over and over expecting different results'?"</div>
+                <div class="result-comparison">
+                    <div class="result-box bad">
+                        <div class="result-label bad">TYPICAL AI RESPONSE</div>
+                        <div class="result-text">"Albert Einstein" — stated confidently, no source, actually a misattribution</div>
+                    </div>
+                    <div class="result-box good">
+                        <div class="result-label good">WITH NO AI BS</div>
+                        <div class="result-text">Flags as common misattribution, traces actual origins, shows model disagreement</div>
+                    </div>
+                </div>
+                <button class="copy-prompt" onclick="copyPrompt(this)">Copy Prompt & Try It</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="how-section" id="how">
+    <h2>How We <span>Catch</span> the BS</h2>
+    <div class="how-grid">
+        <div class="how-card">
+            <div class="icon">8️⃣</div>
+            <h3>8 Models. Same Prompt.</h3>
+            <p>We query ChatGPT, Claude, Gemini, Llama, Mistral, and more — simultaneously. Same question. Different answers.</p>
+        </div>
+        <div class="how-card">
+            <div class="icon">🔍</div>
+            <h3>Spot the Contradictions</h3>
+            <p>When models disagree, we flag it. When citations don't exist, we catch it. When confidence exceeds evidence, we expose it.</p>
+        </div>
+        <div class="how-card">
+            <div class="icon">✅</div>
+            <h3>Truth, Not Trust</h3>
+            <p>Don't trust any single AI. Verify across all of them. See where they agree, where they diverge, and where they're making things up.</p>
+        </div>
+    </div>
+</section>
+
+<section class="models-section">
+    <h2>We query every major model</h2>
+    <div class="model-badges">
+        <span class="model-badge">GPT-4o</span>
+        <span class="model-badge">GPT-4</span>
+        <span class="model-badge">Claude 3.5</span>
+        <span class="model-badge">Claude 3 Opus</span>
+        <span class="model-badge">Gemini Pro</span>
+        <span class="model-badge">Gemini Ultra</span>
+        <span class="model-badge">Llama 3</span>
+        <span class="model-badge">Mistral Large</span>
+    </div>
+</section>
+
+<section class="cta-bottom">
+    <h2>Stop Guessing.<br><span>Start Verifying.</span></h2>
+    <p>This prompt was actually used by our customers. This was our result. Try it yourself.</p>
+    <div class="cta-group">
+        <a href="https://hallucinations.cloud" class="btn-primary">Try Hallucinations.cloud Free</a>
+        <a href="mailto:info@hallucinations.cloud" class="btn-secondary">Contact Us</a>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2026 <a href="https://hallucinations.cloud">Hallucinations.cloud</a> LLC | AI with No BS</p>
+</footer>
+
+<script>
+function copyPrompt(btn) {
+    const promptBox = btn.parentElement.querySelector('.prompt-box');
+    const text = promptBox.innerText.replace(/"/g, '');
+    navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = 'Copied! Now try it on ChatGPT →';
+        btn.style.background = '#22c55e';
+        setTimeout(() => {
+            btn.textContent = 'Copy Prompt & Try It';
+            btn.style.background = '#333';
+        }, 3000);
+    });
+}
+</script>
+
+</body>
+</html>
